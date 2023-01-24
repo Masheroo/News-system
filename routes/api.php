@@ -24,6 +24,13 @@ Route::get('/posts', [PostController::class, 'getAllPosts']);
 Route::get('/post/{id}', [PostController::class, 'getOnePost'])
     ->whereNumber('id');
 
+Route::get('/category/{category_id}/page/{page?}', [PostController::class, 'getAllPostsFromCategory'])
+    ->whereNumber('category_id')
+    ->whereNumber('page');
+
+Route::get('/category/{category_id}', [PostController::class, 'getAllPostsFromCategory'])
+    ->whereNumber('category_id');
+
 Route::post('/create/post', [PostController::class, 'createPost']);
 
 Route::delete('/delete/post/{id}', [PostController::class, 'deletePost'])

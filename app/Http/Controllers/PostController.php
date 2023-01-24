@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
-use Carbon\Carbon;
-use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,7 +16,7 @@ class PostController extends Controller
         $posts = Post::all();
 
         return response([
-            'status' => '200',
+            'status' => 200,
             'data' => $posts
         ], 200);
     }
@@ -28,11 +27,50 @@ class PostController extends Controller
 
         if (!$post) {
             return response([
-                'status' => '404',
+                'status' => 404,
                 'message' =>'Invalid post_id',
             ], 404);
         }else{
             return response($post, 200);
+        }
+    }
+
+    public function getAllPostsFromCategory(int $category_id, int $page = null)
+    {
+        $category = Category::find($category_id);
+
+        if(!$category){
+            return response([
+                'status' => 422,
+                'message' => 'Invalid category' 
+            ]);
+        }
+
+        if($category){
+
+            $posts_data = Post::where('category_id', $category_id)->get();
+
+            if($page){
+
+                $response_data = array_slice(json_decode($posts_data), ($page-1)*10, 10);
+
+                return response([
+                    'status' => 200,
+                    'data' => [
+                        'page' => $page,
+                        'posts' => $response_data
+                    ]
+                ], 200);
+
+            }
+
+            return response([
+                'status' => 200,
+                'data' => [
+                    'posts' => $posts_data
+                ]
+            ], 200);
+           
         }
     }
 
@@ -51,7 +89,7 @@ class PostController extends Controller
 
         if($validator->fails()){
             return response([
-                'status' => '422',
+                'status' => 422,
                 'message' =>'Validation error',
                 'errors' =>[
                     $validator->errors()
@@ -71,7 +109,7 @@ class PostController extends Controller
             return response($post);
         }else{
             return response([
-                'status' => '403',
+                'status' => 403,
                 'message' =>'User accept error',
             ], 403);
         }
@@ -93,7 +131,7 @@ class PostController extends Controller
         
         if($validator->fails()){
             return response([
-                'status' => '422',
+                'status' => 422,
                 'message' =>'Validation error',
                 'errors' =>[
                     $validator->errors()
@@ -142,7 +180,7 @@ class PostController extends Controller
         
         if($validator->fails()){
             return response([
-                'status' => '422',
+                'status' => 422,
                 'message' =>'Validation error',
                 'errors' =>[
                     $validator->errors()
@@ -161,7 +199,7 @@ class PostController extends Controller
             
             if (!$post) {
                 return response([
-                    'status' => '404',
+                    'status' => 404,
                     'message' =>'Invalid post_id',
                 ], 404);
             }
@@ -171,9 +209,7 @@ class PostController extends Controller
             return response([
                 'status' => 200,
                 'message' => 'Post has been updated',
-                'data' =>[
-                    $post
-                ]
+                'data' => $post
             ]);
         }
 
