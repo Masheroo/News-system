@@ -9,7 +9,11 @@ class Comment extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-      'text'  
+      'text',
+      'user_id',
+      'post_id'
     ];
 }
