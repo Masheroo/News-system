@@ -35,13 +35,13 @@ class PostController extends Controller
         }
     }
 
-    public function getAllPostsFromCategory(int $category_id, int $page = null)
+    public function getPostsFromCategory(int $category_id, int $page = null)
     {
         $category = Category::find($category_id);
 
         if(!$category){
             return response([
-                'status' => 422,
+                'status' => 404,
                 'message' => 'Invalid category' 
             ]);
         }
@@ -72,6 +72,25 @@ class PostController extends Controller
             ], 200);
            
         }
+    }
+
+    public function findPosts(string $title)
+    {
+        $posts = Post::where('title', 'like', '%'.$title.'%')->get();
+
+        if(!$posts){
+            return response([
+                'status' => 404,
+                'message' => 'Posts not found' 
+            ]);
+        }
+
+        return response([
+            'status' => 200,
+            'data' => [
+                'posts' => $posts
+            ]
+        ], 200);
     }
 
     public function createPost(Request $request)
