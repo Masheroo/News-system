@@ -121,8 +121,7 @@ class PostController extends Controller
         $user = User::where('token', '=', $token)->first();
 
         if($user->role == 1){
-            $data['created_at'] = 
-
+            
             $post = Post::create($data);
     
             return response($post);

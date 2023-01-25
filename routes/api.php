@@ -40,3 +40,12 @@ Route::delete('/posts/delete/{id}', [PostController::class, 'deletePost'])//Уд
 Route::post('/posts/update/{id}', [PostController::class, 'updatePost'])//Изменить пост
     ->whereNumber('id');
 
+//Работа с категориями
+
+Route::get('/categories', [CategoryController::class, 'getAllCategories']); //Получить все категории
+
+Route::post('/categories/create', [CategoryController::class, 'createCategory']); //Создать категорию
+
+Route::delete('/categories/delete', [CategoryController::class, 'deleteCategory']); //Создать категорию
+
+Route::post('/categories/update', [CategoryController::class, 'updateCategory']); //Создать категорию

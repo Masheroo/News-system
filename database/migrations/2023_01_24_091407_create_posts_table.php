@@ -20,10 +20,12 @@ return new class extends Migration
             $table->string('image');
             $table->foreignId('category_id')
                 ->constrained()
-                ->cascadeOnUpdate();
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->foreignId('user_id')
                 ->constrained()
-                ->onUpdate('cascade');
+                ->onUpdate('cascade')
+                ->cascadeOnDelete();
             $table->bigInteger('views')
                 ->default(0);
             $table->bigInteger('likes')
