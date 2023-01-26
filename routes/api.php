@@ -57,3 +57,5 @@ Route::get('/comments/post/{id}', [CommentController::class, 'getCommentOfPost']
     ->whereNumber('id');
 
 Route::post('/comments/create', [CommentController::class, 'createComment']);
+
+Route::delete('/comments/delete', [CommentController::class, 'deleteComment']);

@@ -55,4 +55,38 @@ class CommentController extends Controller
             'data' => $comment
         ]);
     }
+
+    public function deleteComment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'token' => 'required|exists:users,token',
+            'comment_id' => 'required|exists:comments,id'
+        ]);
+
+        if($validator->fails()){
+            return response([
+                'status' => 422,
+                'message' => 'Validation error',
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        $data = $validator->validated();
+        $user = User::where('token', $data['token'])->first();
+        $comment = Comment::find((int)$data['comment_id']);
+
+        if($comment->user_id == $user->id){
+
+            $comment->delete();
+
+            return response([
+                'status' => 200,
+                'message' => 'Comment has been deleted'
+            ]);
+        }
+        return response([
+            'status' => 403,
+            'message' => 'This comment haven`t be create by this user'
+        ]);
+    }
 }
