@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -59,3 +60,11 @@ Route::get('/comments/post/{id}', [CommentController::class, 'getCommentOfPost']
 Route::post('/comments/create', [CommentController::class, 'createComment']);
 
 Route::delete('/comments/delete', [CommentController::class, 'deleteComment']);
+
+//Работа с пользователем
+
+Route::post('/user/register', [UserController::class, 'register']);
+
+Route::post('/user/authorize', [UserController::class, 'authorization']);
+
+Route::post('/user/update', [UserController::class, 'updateUser']);
