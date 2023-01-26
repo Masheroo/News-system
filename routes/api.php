@@ -50,7 +50,7 @@ Route::post('/categories/create', [CategoryController::class, 'createCategory'])
 
 Route::delete('/categories/delete', [CategoryController::class, 'deleteCategory']); //Создать категорию
 
-Route::post('/categories/update', [CategoryController::class, 'updateCategory']); //Создать категорию
+Route::post('/categories/update', [CategoryController::class, 'updateCategory']); //Обновить категорию
 
 //Работа с комментариями
 
