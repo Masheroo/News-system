@@ -2,21 +2,24 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Post extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
-    
+
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'token',
-        'role'
+        'title',
+        'text',
+        'image',
+        'category_id',
+        'views',
+        'user_id',
+        'views',
+        'likes',
+        'dislikes'
     ];
 }
