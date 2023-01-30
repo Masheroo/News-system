@@ -6,7 +6,11 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -100,7 +104,7 @@ class PostController extends Controller
         $validator = Validator::make($data, [
             'title' => 'required',
             'text' => 'required',
-            'image' => 'required',
+            'image' => 'required|image',
             'category_id' => 'required|exists:categories,id',
             'user_id' => 'required|exists:users,id',
             'token' => 'required|exists:users,token',
@@ -121,6 +125,12 @@ class PostController extends Controller
         $user = User::where('token', '=', $token)->first();
 
         if($user->role == 1){
+
+            $file_ext = $data['image']->getClientOriginalExtension();
+            $filename = Str::random(10) . '.' . $file_ext;
+            $data['image']->move(Storage::path('/public'), $filename);
+
+            $data['image'] = $filename;
             
             $post = Post::create($data);
     
@@ -193,6 +203,7 @@ class PostController extends Controller
         
         $validator = Validator::make($data, [
             'token' => 'required|exists:users,token',
+            'image' => 'image',
             'post_id' => 'required|exists:posts,id',
         ]);
         
@@ -221,6 +232,15 @@ class PostController extends Controller
                     'message' =>'Invalid post_id',
                 ], 404);
             }
+
+            $data_img_name = $post->image;
+            
+            $storage_img = Storage::delete('/public/' . $data_img_name);
+
+            $file_ext = $data['image']->getClientOriginalExtension();
+            $filename = Str::random(10) . '.' . $file_ext;
+            $data['image']->move(Storage::path('/public'), $filename);
+            $data['image'] = $filename;
             
             $post->update($data);
     
