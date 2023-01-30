@@ -235,7 +235,7 @@ class PostController extends Controller
 
             $data_img_name = $post->image;
             
-            $storage_img = Storage::delete('/public/' . $data_img_name);
+            Storage::delete('/public/' . $data_img_name);
 
             $file_ext = $data['image']->getClientOriginalExtension();
             $filename = Str::random(10) . '.' . $file_ext;
