@@ -47,13 +47,13 @@ import axios from 'axios';
     }
     .header-category-list{
         display: flex;
-        justify-content: space-around;
         align-items: center;
         width: 60%;
     }
     .header-category-list-item{
         font-family: 'Montserrat', sans-serif;
         font-weight: 500;
+        margin: 0 15px;
     }
     .header-btns{
         display: flex;
