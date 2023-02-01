@@ -6,7 +6,16 @@
             </router-link>
         </div>
         <div class="header-category-list">
-            <div class="header-category-list-item" v-for="category in categories" :key="category.id">{{ category.title }}</div>
+            
+            <router-link 
+            v-for="category in categories" 
+            :key="category.id" 
+            :to="{
+                name: 'Category', 
+                params:{id: category.id} 
+            }">
+                <div class="header-category-list-item" >{{ category.title }}</div>
+            </router-link>
             
         </div>
         <div class="header-btns">
@@ -32,7 +41,8 @@ import axios from 'axios';
             axios.get('/api/categories')
             .then((response)=>{
                 this.categories = response.data.categories;
-            })
+            });
+            console.log(this.categories);
         }
     }
 </script>

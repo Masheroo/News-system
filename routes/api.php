@@ -43,7 +43,7 @@ Route::delete('/posts/delete/{id}', [PostController::class, 'deletePost'])//Уд
 Route::post('/posts/update/{id}', [PostController::class, 'updatePost'])//Изменить пост
     ->whereNumber('id');
 
-Route::get('posts/uploads/{filename}', function($filename){
+Route::get('/uploads/{filename}', function($filename){
     // return storage_path();
 
     $path = storage_path() . '/app/public/' . $filename;
@@ -56,8 +56,6 @@ Route::get('posts/uploads/{filename}', function($filename){
 
     $file = File::get($path);
     $type = File::mimeType($path);
-
-    return $type;
 
     $response = Response::make($file, 200);
     $response->header("Content-Type", $type);

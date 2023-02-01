@@ -33,6 +33,7 @@ import nSidebarList from './nSidebarList.vue';
 }
 .sidebar{
     padding: 10px;
+    height: 500px;
 }
 .sidebar-title{
     display: flex;
