@@ -54,12 +54,15 @@ class PostController extends Controller
 
             if($page){
 
+                $count_of_pages = ceil(count($posts_data) / 10);
+
                 $response_data = array_slice(json_decode($posts_data), ($page-1)*10, 10);
 
                 return response([
                     'status' => 200,
                     'data' => [
                         'page' => $page,
+                        'count_of_pages' => $count_of_pages,
                         'posts' => $response_data
                     ]
                 ], 200);

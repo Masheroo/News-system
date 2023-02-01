@@ -1,15 +1,20 @@
 <template>
     <header>
         <div class="header-logo">
-            <router-link to="/">
+            <router-link @click="this.GET_CATEGORIES()" to="/">
                 <img src="../../../uploads/logo.png" alt="" srcset="">
             </router-link>
         </div>
         <div class="header-category-list">
             
             <router-link 
-            v-for="category in categories" 
-            :key="category.id" 
+            v-for="category in CATEGORIES" 
+            :key="category.id"
+            @click="
+            this.GET_CATEGORY_POSTS(category.id);
+            this.GET_CATEGORY(category.id);
+            " 
+            :category_title="category.title"
             :to="{
                 name: 'Category', 
                 params:{id: category.id} 
@@ -30,20 +35,28 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapActions, mapGetters } from 'vuex';
+
     export default {
         data() {
             return {
-                categories: []
             }
         },
         mounted(){
-            axios.get('/api/categories')
-            .then((response)=>{
-                this.categories = response.data.categories;
-            });
-            console.log(this.categories);
-        }
+            this.GET_CATEGORIES();
+        },
+        computed:{
+            ...mapGetters([
+                'CATEGORIES'
+            ]),
+        },
+        methods: {
+            ...mapActions([
+                'GET_CATEGORY_POSTS',
+                'GET_CATEGORIES',
+                'GET_CATEGORY'
+            ])
+        },
     }
 </script>
 

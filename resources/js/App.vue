@@ -16,7 +16,8 @@
     export default {
         components:{
             nheader, nSidebar
-        }
+        },
+        
     }
 </script>
 

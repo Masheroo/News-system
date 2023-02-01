@@ -67,11 +67,15 @@ Route::get('/uploads/{filename}', function($filename){
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories']); //Получить все категории
 
+Route::get('/categories/{id}', [CategoryController::class, 'getOneCategory'])
+->whereNumber('id'); //Обновить категорию
+
 Route::post('/categories/create', [CategoryController::class, 'createCategory']); //Создать категорию
 
 Route::delete('/categories/delete', [CategoryController::class, 'deleteCategory']); //Создать категорию
 
 Route::post('/categories/update', [CategoryController::class, 'updateCategory']); //Обновить категорию
+
 
 //Работа с комментариями
 

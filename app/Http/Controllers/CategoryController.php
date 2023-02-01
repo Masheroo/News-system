@@ -18,7 +18,19 @@ class CategoryController extends Controller
             'categories' => $categories
         ]);
     }
+    public function getOneCategory($id)
+    {
+        $category = Category::find((int)$id);
 
+        if (!$category) {
+            return response([
+                'status' => 404,
+                'message' =>'Invalid category_id',
+            ], 404);
+        }else{
+            return response($category, 200);
+        }
+    }
     public function createCategory(Request $request)
     {
         $validator = Validator::make($request->all(), [
