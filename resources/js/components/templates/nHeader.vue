@@ -11,7 +11,10 @@
             v-for="category in CATEGORIES" 
             :key="category.id"
             @click="
-            this.GET_CATEGORY_POSTS(category.id);
+            this.GET_CATEGORY_POSTS( {
+                id :category.id,
+                page: 1
+            } );
             this.GET_CATEGORY(category.id);
             " 
             :category_title="category.title"
@@ -27,7 +30,7 @@
             <div class="header-btn">
                 <img src="../../../uploads/find.png" alt="" srcset="">
             </div>
-            <div class="header-btn">
+            <div @click="toggleMenu()" class="header-btn">
                 <img src="../../../uploads/menu.png" alt="" srcset="">
             </div>
         </div>
@@ -55,7 +58,11 @@ import { mapActions, mapGetters } from 'vuex';
                 'GET_CATEGORY_POSTS',
                 'GET_CATEGORIES',
                 'GET_CATEGORY'
-            ])
+            ]),
+            toggleMenu(){
+                let menu = document.querySelector('#menu');
+                menu.classList.toggle('hide');
+            }
         },
     }
 </script>
@@ -67,6 +74,7 @@ import { mapActions, mapGetters } from 'vuex';
         align-items: center;
         padding: 10px 15px;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        height: 80px;
     }
     .header-category-list{
         display: flex;
@@ -82,5 +90,8 @@ import { mapActions, mapGetters } from 'vuex';
         display: flex;
         justify-content: space-between;
         width: 7%;
+    }
+    .header-btn > img{
+        width: 80%;
     }
 </style>

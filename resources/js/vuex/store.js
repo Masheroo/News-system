@@ -11,6 +11,7 @@ let store = createStore({
                 id:null,
             },
             count_of_pages:null,
+            current_post :[]
         }
     },
     mutations:{
@@ -26,10 +27,13 @@ let store = createStore({
         SET_COUNT_OF_PAGES: (state, count)=>{
             state.count_of_pages = count
         },
+        SET_CURRENT_POST: (state, post)=>{
+            state.current_post = post
+        }
     },
     actions:{
-        GET_CATEGORY_POSTS({commit}, id, page = 1){
-            return axios.get('/api/posts/category/' + id + '/page/' + page)
+        GET_CATEGORY_POSTS({commit}, data){
+            return axios.get('/api/posts/category/' + data.id + '/page/' + data.page)
             .then((response) =>{
                     commit('SET_CATEGORY_POSTS_TO_STATE', response.data.data.posts);
                     commit('SET_COUNT_OF_PAGES', response.data.data.count_of_pages);
@@ -46,6 +50,23 @@ let store = createStore({
             .then((response) =>{
                 commit('SET_CATEGORIES_STATE', response.data.categories);
             })
+        },
+        GET_POST({commit}, id){
+            return axios.get('/api/posts/' + id)
+            .then((response) =>{
+                commit('SET_CURRENT_POST', response.data);
+            })
+        },
+        AUTHORIZE(form){
+            return axios.post('api/user/authorize', form)
+                .then((response)=>{
+                    return response.data
+                })
+                .catch((error)=>{
+                    return error.response.data.error
+
+                }   
+            );
         }
     },
     getters:{
@@ -63,6 +84,9 @@ let store = createStore({
         },
         COUNT_OF_PAGES(state){
             return state.count_of_pages
+        },
+        CURRENT_POST(state){
+            return state.current_post
         }
 
     }

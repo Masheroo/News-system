@@ -8,7 +8,10 @@
         <div class="pagination">
             <div class="pagination-item" 
             v-for="current in this.COUNT_OF_PAGES"
-            @click="getPosts(current)" 
+            @click="this.GET_CATEGORY_POSTS( {
+                id :CURRENT_CATEGORY_ID,
+                page: current
+            } );" 
             >{{current}}</div>
         </div>
     </div>
@@ -43,9 +46,9 @@ import { useRoute } from 'vue-router'
             ]),
         },
         mounted () {
-            if(!this.CATEGORY_POSTS[0]){
+            if(!this.CURRENT_CATEGORY_ID){
                 this.GET_CATEGORY(useRoute().params.id);
-                this.GET_CATEGORY_POSTS(useRoute().params.id ,1); 
+                this.GET_CATEGORY_POSTS({id:useRoute().params.id ,page:1}); 
             }
         },
         methods: {
